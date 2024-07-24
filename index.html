@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotina Alimentar e Física</title>
+</head>
+<body>
+    <h1>Registro de Rotina Alimentar e Física</h1>
+    <form id="formulario">
+        <label for="data">Data:</label>
+        <input type="date" id="data" required>
+        <br>
+        <label for="alimentacao">Alimentação:</label>
+        <input type="text" id="alimentacao" required>
+        <br>
+        <label for="exercicio">Exercício:</label>
+        <input type="text" id="exercicio" required>
+        <br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let data = document.getElementById('data').value;
+            let alimentacao = document.getElementById('alimentacao').value;
+            let exercicio = document.getElementById('exercicio').value;
+
+            let registro = { data, alimentacao, exercicio };
+
+            fetch('/salvar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registro)
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                alert('Dados salvos com sucesso!');
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao salvar os dados.');
+            });
+        });
+    </script>
+</body>
+</html>
